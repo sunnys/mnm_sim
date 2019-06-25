@@ -21,8 +21,8 @@ type User struct {
 	Email        string    `json:"email" db:"email"`
 	PasswordHash string    `json:"password_hash" db:"password_hash"`
 
-	Password             string `json:"-" db:"-"`
-	PasswordConfirmation string `json:"-" db:"-"`
+	Password             string `json:"password" db:"-"`
+	PasswordConfirmation string `json:"password_confirmation" db:"-"`
 }
 
 // Create wraps up the pattern of encrypting the password and
@@ -94,4 +94,17 @@ func (u *User) ValidateCreate(tx *pop.Connection) (*validate.Errors, error) {
 // This method is not required and may be deleted.
 func (u *User) ValidateUpdate(tx *pop.Connection) (*validate.Errors, error) {
 	return validate.NewErrors(), nil
+}
+
+// AddUser example
+type AddUser struct {
+	email string `json:"email" example:"example_user@example.com"`
+	password string `json:"password" example:"password"`
+	password_confirmation string `json:"password_confirmation" example:"password"`
+}
+
+// AuthenticateUser example
+type AuthenticateUser struct {
+	email string `json:"email" example:"example_user@example.com"`
+	password string `json:"password" example:"password"`
 }

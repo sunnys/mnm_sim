@@ -1,0 +1,6 @@
+create_table("phases") {
+	t.Column("id", "uuid", {primary: true})
+	t.Column("name", "string", {})
+	t.Column("bio", "text", {})
+	t.Timestamps()
+}

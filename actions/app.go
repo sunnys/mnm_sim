@@ -15,10 +15,10 @@ import (
 	"github.com/rs/cors"
 )
 
-import(
-    buffaloSwagger "github.com/swaggo/buffalo-swagger"
-    "github.com/swaggo/buffalo-swagger/swaggerFiles"
-    _ "github.com/<github_name>/<project_name>/docs"
+import (
+	buffaloSwagger "github.com/swaggo/buffalo-swagger"
+	"github.com/swaggo/buffalo-swagger/swaggerFiles"
+	_ "mnm_sim/docs"
 )
 
 // ENV is used to help switch settings based on where the
@@ -39,6 +39,49 @@ var app *buffalo.App
 // `ServeFiles` is a CATCH-ALL route, so it should always be
 // placed last in the route declarations, as it will prevent routes
 // declared after it to never be called.
+
+// @title M&M Simulation's API
+// @version 1.0
+// @description This is a sample server celler server.
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name API Support
+// @contact.url http://www.swagger.io/support
+// @contact.email support@swagger.io
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host localhost:3000
+// @BasePath /api/v1
+
+// @securityDefinitions.basic BasicAuth
+
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
+
+// @securitydefinitions.oauth2.application OAuth2Application
+// @tokenUrl https://example.com/oauth/token
+// @scope.write Grants write access
+// @scope.admin Grants read and write access to administrative information
+
+// @securitydefinitions.oauth2.implicit OAuth2Implicit
+// @authorizationurl https://example.com/oauth/authorize
+// @scope.write Grants write access
+// @scope.admin Grants read and write access to administrative information
+
+// @securitydefinitions.oauth2.password OAuth2Password
+// @tokenUrl https://example.com/oauth/token
+// @scope.read Grants read access
+// @scope.write Grants write access
+// @scope.admin Grants read and write access to administrative information
+
+// @securitydefinitions.oauth2.accessCode OAuth2AccessCode
+// @tokenUrl https://example.com/oauth/token
+// @authorizationurl https://example.com/oauth/authorize
+// @scope.admin Grants read and write access to administrative information
+
 func App() *buffalo.App {
 	if app == nil {
 		app = buffalo.New(buffalo.Options{
@@ -50,30 +93,39 @@ func App() *buffalo.App {
 			SessionName: "_mnm_sim_session",
 		})
 
+		g := app.Group("/api/v1")
+
+		app1 := app.Group("/api/v1")
 		// Automatically redirect to SSL
-		app.Use(forceSSL())
+		app1.Use(forceSSL())
 
 		// Log request parameters (filters apply).
-		app.Use(paramlogger.ParameterLogger)
+		g.Use(paramlogger.ParameterLogger)
+		app1.Use(paramlogger.ParameterLogger)
 
 		// Set the request content type to JSON
-		app.Use(contenttype.Set("application/json"))
+		g.Use(contenttype.Set("application/json"))
+		app1.Use(contenttype.Set("application/json"))
 
 		// Wraps each request in a transaction.
 		//  c.Value("tx").(*pop.Connection)
 		// Remove to disable this.
-		app.Use(popmw.Transaction(models.DB))
+		g.Use(popmw.Transaction(models.DB))
+		app1.Use(popmw.Transaction(models.DB))
 
-		app.GET("/swagger/{doc:.*}", buffaloSwagger.WrapHandler(swaggerFiles.Handler))
-		app.GET("/", HomeHandler)
-		app.Use(SetCurrentUser)
-		app.Use(Authorize)
-		app.GET("/users/new", UsersNew)
-		app.POST("/users", UsersCreate)
-		app.GET("/signin", AuthNew)
-		app.POST("/signin", AuthCreate)
-		app.DELETE("/signout", AuthDestroy)
-		app.Middleware.Skip(Authorize, HomeHandler, UsersNew, UsersCreate, AuthNew, AuthCreate)
+		app1.GET("/", HomeHandler)
+		g.GET("/swagger/{doc:.*}", buffaloSwagger.WrapHandler(swaggerFiles.Handler))
+
+		app1.Use(SetCurrentUser)
+		app1.Use(Authorize)
+
+		g.GET("/users/new", UsersNew)
+		g.POST("/users", UsersCreate)
+		app1.GET("/signin", AuthNew)
+		app1.POST("/signin", AuthCreate)
+		app1.DELETE("/signout", AuthDestroy)
+		g.Resource("/phases", PhasesResource{})
+		app1.Middleware.Skip(Authorize, HomeHandler, UsersNew, UsersCreate, AuthNew, AuthCreate)
 	}
 
 	return app

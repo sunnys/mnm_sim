@@ -34,6 +34,21 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: phases; Type: TABLE; Schema: public; Owner: quodeck
+--
+
+CREATE TABLE phases (
+    id uuid NOT NULL,
+    name character varying(255) NOT NULL,
+    bio text NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE phases OWNER TO quodeck;
+
+--
 -- Name: schema_migration; Type: TABLE; Schema: public; Owner: quodeck
 --
 
@@ -58,6 +73,14 @@ CREATE TABLE users (
 
 
 ALTER TABLE users OWNER TO quodeck;
+
+--
+-- Name: phases_pkey; Type: CONSTRAINT; Schema: public; Owner: quodeck
+--
+
+ALTER TABLE ONLY phases
+    ADD CONSTRAINT phases_pkey PRIMARY KEY (id);
+
 
 --
 -- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: quodeck
