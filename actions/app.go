@@ -15,6 +15,12 @@ import (
 	"github.com/rs/cors"
 )
 
+import(
+    buffaloSwagger "github.com/swaggo/buffalo-swagger"
+    "github.com/swaggo/buffalo-swagger/swaggerFiles"
+    _ "github.com/<github_name>/<project_name>/docs"
+)
+
 // ENV is used to help switch settings based on where the
 // application is being run. Default is "development".
 var ENV = envy.Get("GO_ENV", "development")
@@ -58,7 +64,16 @@ func App() *buffalo.App {
 		// Remove to disable this.
 		app.Use(popmw.Transaction(models.DB))
 
+		app.GET("/swagger/{doc:.*}", buffaloSwagger.WrapHandler(swaggerFiles.Handler))
 		app.GET("/", HomeHandler)
+		app.Use(SetCurrentUser)
+		app.Use(Authorize)
+		app.GET("/users/new", UsersNew)
+		app.POST("/users", UsersCreate)
+		app.GET("/signin", AuthNew)
+		app.POST("/signin", AuthCreate)
+		app.DELETE("/signout", AuthDestroy)
+		app.Middleware.Skip(Authorize, HomeHandler, UsersNew, UsersCreate, AuthNew, AuthCreate)
 	}
 
 	return app
