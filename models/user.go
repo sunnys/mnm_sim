@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"strings"
 	"time"
-
 	"github.com/gobuffalo/pop"
 	"github.com/gobuffalo/uuid"
 	"github.com/gobuffalo/validate"
@@ -23,6 +22,7 @@ type User struct {
 
 	Password             string `json:"password" db:"-"`
 	PasswordConfirmation string `json:"password_confirmation" db:"-"`
+	Tokens	string			   `json:"tokens" db:"tokens"`
 }
 
 // Create wraps up the pattern of encrypting the password and
@@ -107,4 +107,12 @@ type AddUser struct {
 type AuthenticateUser struct {
 	email string `json:"email" example:"example_user@example.com"`
 	password string `json:"password" example:"password"`
+}
+
+// Authentication Header Example
+type AuthenticationHeader struct {
+	uid string `json: "uid" example: "example_user@example.com"`
+	AccessToken string `json: "access-token" example: "oUfHwqhMHQu-r28_n6Crh5SWV7vcCGJis3NuZOwOjBU="`
+	client string `json: "client" example: "_nF39TTNZrZmtFUlwhdSvVuH3ea42JCmiNquRYMqkjs="`
+	expiry string `json: "expiry" example: "1564117755395"`
 }

@@ -98,6 +98,26 @@ paths:
       - application/json
       description: get all phases
       parameters:
+      - description: Access Token of successful authentication
+        in: header
+        name: access-token
+        required: true
+        type: string
+      - description: Client Header of successful authentication
+        in: header
+        name: client
+        required: true
+        type: string
+      - description: Expiry Header of successful authentication
+        in: header
+        name: expiry
+        required: true
+        type: string
+      - description: uid of user
+        in: header
+        name: uid
+        required: true
+        type: string
       - description: name search by q
         in: query
         name: q

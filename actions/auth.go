@@ -3,6 +3,7 @@ package actions
 import (
 	"database/sql"
 	"strings"
+	"encoding/json"
 
 	"mnm_sim/models"
 	"fmt"
@@ -47,7 +48,6 @@ func AuthCreate(c buffalo.Context) error {
 
 	// find a user with the email
 	err := tx.Where("email = ?", strings.ToLower(strings.TrimSpace(u.Email))).First(u)
-	fmt.Printf("I am in\n")
 	// helper function to handle bad attempts
 	bad := func() error {
 		c.Set("user", u)
@@ -72,13 +72,31 @@ func AuthCreate(c buffalo.Context) error {
 		fmt.Printf("Password mismatch.\n")
 		return bad()
 	}
+
+	// --------------------------------------------------------------
+	//  Block to generate tokens and append them to response header
+	// --------------------------------------------------------------
 	client, token, expiry, e := generate_tokens(32, 30)
 	if e != nil {
 		return bad()
 	}
+	tokens:= u.Tokens
+	merged_token := make(map[string]string)
+	token_hash, token_hash_err := bcrypt.GenerateFromPassword([]byte(token), bcrypt.DefaultCost)
+	if token_hash_err != nil {
+		return errors.WithStack(token_hash_err)
+	}
+	merged_token[client] = string(token_hash)
+	json.Unmarshal([]byte(tokens), &merged_token)
+	json_merged_token, _:= json.Marshal(merged_token)
+	u.Tokens = string(json_merged_token)
+	update_err:= tx.Update(u)
+	if update_err != nil {
+		return errors.WithStack(update_err)
+	}
 	c.Response().Header().Set("uid", u.Email)
 	c.Response().Header().Set("client", client)
-	c.Response().Header().Set("token", token)
+	c.Response().Header().Set("access-token", token)
 	c.Response().Header().Set("expiry", expiry)
 
 	c.Flash().Add("success", "Welcome Back to Buffalo!")

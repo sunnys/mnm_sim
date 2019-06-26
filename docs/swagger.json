@@ -31,6 +31,34 @@
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "Access Token of successful authentication",
+                        "name": "access-token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Client Header of successful authentication",
+                        "name": "client",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Expiry Header of successful authentication",
+                        "name": "expiry",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid of user",
+                        "name": "uid",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
                         "description": "name search by q",
                         "name": "q",
                         "in": "query"
