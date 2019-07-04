@@ -13,8 +13,9 @@ type Phase struct {
 	ID        uuid.UUID `json:"id" db:"id"`
 	CreatedAt time.Time `json:"created_at" db:"created_at"`
 	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
-	Name      string    `json:"name" db:"name"`
-	Bio       string    `json:"bio" db:"bio"`
+	User    User        `belongs_to:"user"`
+	UserID  uuid.UUID   `json:"user_id" db:"user_id"`
+	Data      string    `json:"data" db:"data"`
 }
 
 // String is not required by pop and may be deleted
@@ -36,8 +37,7 @@ func (p Phases) String() string {
 // This method is not required and may be deleted.
 func (p *Phase) Validate(tx *pop.Connection) (*validate.Errors, error) {
 	return validate.Validate(
-		&validators.StringIsPresent{Field: p.Name, Name: "Name"},
-		&validators.StringIsPresent{Field: p.Bio, Name: "Bio"},
+		&validators.StringIsPresent{Field: p.Data, Name: "Data"},
 	), nil
 }
 
@@ -55,7 +55,7 @@ func (p *Phase) ValidateUpdate(tx *pop.Connection) (*validate.Errors, error) {
 
 // AddPhase example
 type AddPhase struct {
-	Name string `json:"name" example:"Phase name"`
+	Data string `json:"data" example:'{"user_id": "11111"}'`
 }
 
 // UpdatePhase example

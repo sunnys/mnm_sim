@@ -39,8 +39,8 @@ SET default_with_oids = false;
 
 CREATE TABLE phases (
     id uuid NOT NULL,
-    name character varying(255) NOT NULL,
-    bio text NOT NULL,
+    data jsonb NOT NULL,
+    user_id uuid NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -96,6 +96,14 @@ ALTER TABLE ONLY users
 --
 
 CREATE UNIQUE INDEX schema_migration_version_idx ON schema_migration USING btree (version);
+
+
+--
+-- Name: phases_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: quodeck
+--
+
+ALTER TABLE ONLY phases
+    ADD CONSTRAINT phases_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --

@@ -28,6 +28,7 @@ require (
 	github.com/pkg/errors v0.8.1
 	github.com/rs/cors v1.6.0
 	github.com/spf13/afero v1.2.1 // indirect
+	github.com/stretchr/testify v1.3.0
 	github.com/swaggo/buffalo-swagger v0.0.0-20181212061503-01d66cd14ca7
 	github.com/swaggo/swag v1.5.1
 	github.com/unrolled/secure v1.0.0

@@ -117,6 +117,34 @@
                 "summary": "Add a Phase",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "Access Token of successful authentication",
+                        "name": "access-token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Client Header of successful authentication",
+                        "name": "client",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Expiry Header of successful authentication",
+                        "name": "expiry",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid of user",
+                        "name": "uid",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
                         "description": "Add Phase",
                         "name": "Phase",
                         "in": "body",
@@ -415,9 +443,9 @@
         "models.AddPhase": {
             "type": "object",
             "properties": {
-                "name": {
-                    "type": "string",
-                    "example": "Phase name"
+                "data": {
+                    "type": "object",
+                    "$ref": "#/definitions/models.Attrs"
                 }
             }
         },
@@ -438,6 +466,12 @@
                 }
             }
         },
+        "models.Attrs": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "object"
+            }
+        },
         "models.AuthenticateUser": {
             "type": "object",
             "properties": {
@@ -454,16 +488,14 @@
         "models.Phase": {
             "type": "object",
             "properties": {
-                "bio": {
-                    "type": "string"
-                },
                 "created_at": {
                     "type": "string"
                 },
-                "id": {
-                    "type": "string"
+                "data": {
+                    "type": "object",
+                    "$ref": "#/definitions/models.Attrs"
                 },
-                "name": {
+                "id": {
                     "type": "string"
                 },
                 "updated_at": {
@@ -499,6 +531,9 @@
                     "type": "string"
                 },
                 "password_hash": {
+                    "type": "string"
+                },
+                "tokens": {
                     "type": "string"
                 },
                 "updated_at": {

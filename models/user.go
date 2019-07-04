@@ -23,6 +23,7 @@ type User struct {
 	Password             string `json:"password" db:"-"`
 	PasswordConfirmation string `json:"password_confirmation" db:"-"`
 	Tokens	string			   `json:"tokens" db:"tokens"`
+	Phases        Phases     `has_many:"phases"`
 }
 
 // Create wraps up the pattern of encrypting the password and

@@ -123,6 +123,7 @@ func App() *buffalo.App {
 		g.POST("/users", UsersCreate)
 		app1.GET("/signin", AuthNew)
 		app1.POST("/signin", AuthCreate)
+		app1.POST("/auth/sign_in", AuthCreate)
 		app1.DELETE("/signout", AuthDestroy)
 		app1.Resource("/phases", PhasesResource{})
 		app1.Middleware.Skip(Authorize, HomeHandler, UsersNew, UsersCreate, AuthNew, AuthCreate)

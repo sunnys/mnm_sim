@@ -112,6 +112,10 @@ func (v PhasesResource) Show(c buffalo.Context) error {
 // @Tags phases
 // @Accept  json
 // @Produce  json
+// @Param access-token header string true "Access Token of successful authentication"
+// @Param client header string true "Client Header of successful authentication"
+// @Param expiry header string true "Expiry Header of successful authentication"
+// @Param uid header string true "uid of user"
 // @Param Phase body models.AddPhase true "Add Phase"
 // @Success 200 {object} models.Phase
 // @Failure 400 {object} web.HTTPError
@@ -121,7 +125,7 @@ func (v PhasesResource) Show(c buffalo.Context) error {
 func (v PhasesResource) Create(c buffalo.Context) error {
 	// Allocate an empty Phase
 	phase := &models.Phase{}
-
+	// fmt.Printf("Current User: %s", c.Get("current_user"))
 	// Bind phase to the html form elements
 	if err := c.Bind(phase); err != nil {
 		return errors.WithStack(err)
