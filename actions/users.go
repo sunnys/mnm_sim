@@ -59,8 +59,8 @@ func UsersCreate(c buffalo.Context) error {
 
 	c.Response().Header().Set("uid", u.Email)
 	c.Flash().Add("success", "Welcome to Buffalo!")
-
-	return c.Render(201, r.Auto(c, u))
+	user := u.View()
+	return c.Render(201, r.Auto(c, user))
 }
 
 // SetCurrentUser attempts to find a user based on the current_user_id

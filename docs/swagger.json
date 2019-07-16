@@ -444,8 +444,7 @@
             "type": "object",
             "properties": {
                 "data": {
-                    "type": "object",
-                    "$ref": "#/definitions/models.Attrs"
+                    "type": "string"
                 }
             }
         },
@@ -464,12 +463,6 @@
                     "type": "string",
                     "example": "password"
                 }
-            }
-        },
-        "models.Attrs": {
-            "type": "object",
-            "additionalProperties": {
-                "type": "object"
             }
         },
         "models.AuthenticateUser": {
@@ -492,13 +485,19 @@
                     "type": "string"
                 },
                 "data": {
-                    "type": "object",
-                    "$ref": "#/definitions/models.Attrs"
+                    "type": "string"
                 },
                 "id": {
                     "type": "string"
                 },
                 "updated_at": {
+                    "type": "string"
+                },
+                "user": {
+                    "type": "object",
+                    "$ref": "#/definitions/models.User"
+                },
+                "user_id": {
                     "type": "string"
                 }
             }

@@ -3,8 +3,7 @@ definitions:
   models.AddPhase:
     properties:
       data:
-        $ref: '#/definitions/models.Attrs'
-        type: object
+        type: string
     type: object
   models.AddUser:
     properties:
@@ -17,10 +16,6 @@ definitions:
       password_confirmation:
         example: password
         type: string
-    type: object
-  models.Attrs:
-    additionalProperties:
-      type: object
     type: object
   models.AuthenticateUser:
     properties:
@@ -36,11 +31,15 @@ definitions:
       created_at:
         type: string
       data:
-        $ref: '#/definitions/models.Attrs'
-        type: object
+        type: string
       id:
         type: string
       updated_at:
+        type: string
+      user:
+        $ref: '#/definitions/models.User'
+        type: object
+      user_id:
         type: string
     type: object
   models.UpdatePhase:

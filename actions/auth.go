@@ -100,8 +100,8 @@ func AuthCreate(c buffalo.Context) error {
 	c.Response().Header().Set("expiry", expiry)
 
 	c.Flash().Add("success", "Welcome Back to Buffalo!")
-
-	return c.Render(201, r.Auto(c, u))
+	user := u.View()
+	return c.Render(201, r.Auto(c, user))
 }
 
 // AuthDestroy clears the session and logs a user out

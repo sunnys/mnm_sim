@@ -10,6 +10,7 @@ import (
 	"github.com/gobuffalo/validate/validators"
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/bcrypt"
+	"fmt"
 )
 
 //User is a generated model from buffalo-auth, it serves as the base for username/password authentication.
@@ -23,18 +24,20 @@ type User struct {
 	Password             string `json:"password" db:"-"`
 	PasswordConfirmation string `json:"password_confirmation" db:"-"`
 	Tokens	string			   `json:"tokens" db:"tokens"`
-	Phases        Phases     `has_many:"phases"`
+	// Phases        Phases     `has_many:"phases"`
 }
 
 // Create wraps up the pattern of encrypting the password and
 // running validations. Useful when writing tests.
 func (u *User) Create(tx *pop.Connection) (*validate.Errors, error) {
 	u.Email = strings.ToLower(u.Email)
+	fmt.Printf("Emaail: %s\n", u.Email)
 	ph, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return validate.NewErrors(), errors.WithStack(err)
 	}
 	u.PasswordHash = string(ph)
+	fmt.Printf("Password: %s\n", u.PasswordHash)
 	return tx.ValidateAndCreate(u)
 }
 
@@ -51,6 +54,16 @@ type Users []User
 func (u Users) String() string {
 	ju, _ := json.Marshal(u)
 	return string(ju)
+}
+
+// Function to convert
+func (u User) View() UserView {
+	user := UserView{
+		ID: u.ID,
+		Email: u.Email,
+		CreatedAt: u.CreatedAt,
+		UpdatedAt: u.UpdatedAt}
+	return user
 }
 
 // Validate gets run every time you call a "pop.Validate*" (pop.ValidateAndSave, pop.ValidateAndCreate, pop.ValidateAndUpdate) method.
@@ -116,4 +129,12 @@ type AuthenticationHeader struct {
 	AccessToken string `json: "access-token" example: "oUfHwqhMHQu-r28_n6Crh5SWV7vcCGJis3NuZOwOjBU="`
 	client string `json: "client" example: "_nF39TTNZrZmtFUlwhdSvVuH3ea42JCmiNquRYMqkjs="`
 	expiry string `json: "expiry" example: "1564117755395"`
+}
+
+// User View
+type UserView struct {
+	ID           uuid.UUID `json:"id" db:"id"`
+	CreatedAt    time.Time `json:"created_at" db:"created_at"`
+	UpdatedAt    time.Time `json:"updated_at" db:"updated_at"`
+	Email        string    `json:"email" db:"email"`
 }

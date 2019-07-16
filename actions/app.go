@@ -84,11 +84,18 @@ var app *buffalo.App
 
 func App() *buffalo.App {
 	if app == nil {
+		corsConfig := cors.New(cors.Options{
+			AllowedOrigins: []string{"*"},
+			AllowedHeaders: []string{"Origin", "Accept", "Content-Type", "X-Requested-With", "Authorization"},
+			ExposedHeaders: []string{"access-token", "expiry", "token-type", "uid", "client", "latest-version"},
+			AllowedMethods: []string{"POST", "PUT", "GET", "PATCH", "OPTIONS", "HEAD", "DELETE"},
+			Debug:          true,
+		})
 		app = buffalo.New(buffalo.Options{
 			Env:          ENV,
 			SessionStore: sessions.Null{},
 			PreWares: []buffalo.PreWare{
-				cors.Default().Handler,
+				corsConfig.Handler,
 			},
 			SessionName: "_mnm_sim_session",
 		})

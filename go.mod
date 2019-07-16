@@ -5,7 +5,6 @@ go 1.12
 require (
 	github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc
 	github.com/codegangsta/negroni v1.0.0 // indirect
-	github.com/gin-gonic/gin v1.4.0 // indirect
 	github.com/gobuffalo/buffalo v0.14.6
 	github.com/gobuffalo/buffalo-pop v1.15.0
 	github.com/gobuffalo/envy v1.7.0
@@ -22,9 +21,6 @@ require (
 	github.com/gobuffalo/x v0.0.0-20190224155809-6bb134105960
 	github.com/gofrs/uuid v3.2.0+incompatible
 	github.com/markbates/grift v1.0.6
-	github.com/motemen/go-quickfix v0.0.0-20160413151302-5c522febc679 // indirect
-	github.com/motemen/gore v0.4.1 // indirect
-	github.com/peterh/liner v1.1.0 // indirect
 	github.com/pkg/errors v0.8.1
 	github.com/rs/cors v1.6.0
 	github.com/spf13/afero v1.2.1 // indirect
