@@ -5,6 +5,7 @@ go 1.12
 require (
 	github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc
 	github.com/codegangsta/negroni v1.0.0 // indirect
+	github.com/digitalocean/godo v1.17.0
 	github.com/gobuffalo/buffalo v0.14.6
 	github.com/gobuffalo/buffalo-pop v1.15.0
 	github.com/gobuffalo/envy v1.7.0
@@ -29,4 +30,5 @@ require (
 	github.com/swaggo/swag v1.5.1
 	github.com/unrolled/secure v1.0.0
 	golang.org/x/crypto v0.0.0-20190621222207-cc06ce4a13d4
+	golang.org/x/oauth2 v0.0.0-20190402181905-9f3314589c9a
 )

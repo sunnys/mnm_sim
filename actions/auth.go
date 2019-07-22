@@ -2,20 +2,20 @@ package actions
 
 import (
 	"database/sql"
-	"strings"
 	"encoding/json"
+	"strings"
 
-	"mnm_sim/models"
+	"crypto/rand"
+	"encoding/base64"
 	"fmt"
-	"time"
-	"strconv"
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/pop"
 	"github.com/gobuffalo/validate"
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/bcrypt"
-	"crypto/rand"
-	"encoding/base64"
+	"mnm_sim/models"
+	"strconv"
+	"time"
 )
 
 // AuthNew loads the signin page
@@ -80,7 +80,7 @@ func AuthCreate(c buffalo.Context) error {
 	if e != nil {
 		return bad()
 	}
-	tokens:= u.Tokens
+	tokens := u.Tokens
 	merged_token := make(map[string]string)
 	token_hash, token_hash_err := bcrypt.GenerateFromPassword([]byte(token), bcrypt.DefaultCost)
 	if token_hash_err != nil {
@@ -88,9 +88,9 @@ func AuthCreate(c buffalo.Context) error {
 	}
 	merged_token[client] = string(token_hash)
 	json.Unmarshal([]byte(tokens), &merged_token)
-	json_merged_token, _:= json.Marshal(merged_token)
+	json_merged_token, _ := json.Marshal(merged_token)
 	u.Tokens = string(json_merged_token)
-	update_err:= tx.Update(u)
+	update_err := tx.Update(u)
 	if update_err != nil {
 		return errors.WithStack(update_err)
 	}
@@ -111,14 +111,14 @@ func AuthDestroy(c buffalo.Context) error {
 	return c.Redirect(302, "/")
 }
 
-// GenerateRandomBytes returns securely generated random bytes. 
+// GenerateRandomBytes returns securely generated random bytes.
 // It will return an error if the system's secure random
 // number generator fails to function correctly, in which
 // case the caller should not continue.
 func GenerateRandomBytes(n int) ([]byte, error) {
 	b := make([]byte, n)
 	_, err := rand.Read(b)
-    // Note that err == nil only if we read len(b) bytes.
+	// Note that err == nil only if we read len(b) bytes.
 	if err != nil {
 		return nil, err
 	}
@@ -139,7 +139,7 @@ func GenerateRandomString(s int) (string, error) {
 func generate_tokens(token_size int, expiry_time int) (string, string, string, error) {
 	client, err := GenerateRandomString(token_size)
 	token, err1 := GenerateRandomString(token_size)
-	expiry := strconv.FormatInt((time.Now().AddDate(0,0, expiry_time).UnixNano() / 1000000), 10)
+	expiry := strconv.FormatInt((time.Now().AddDate(0, 0, expiry_time).UnixNano() / 1000000), 10)
 	if err != nil {
 		return "", "", "", err
 	}

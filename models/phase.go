@@ -13,8 +13,8 @@ type Phase struct {
 	ID        uuid.UUID `json:"id" db:"id"`
 	CreatedAt time.Time `json:"created_at" db:"created_at"`
 	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
-	User    User        `belongs_to:"user"`
-	UserID  uuid.UUID   `json:"user_id" db:"user_id"`
+	User      User      `belongs_to:"user"`
+	UserID    uuid.UUID `json:"user_id" db:"user_id"`
 	Data      string    `json:"data" db:"data"`
 }
 

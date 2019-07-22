@@ -34,6 +34,21 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: builds; Type: TABLE; Schema: public; Owner: quodeck
+--
+
+CREATE TABLE builds (
+    id uuid NOT NULL,
+    name character varying(255) NOT NULL,
+    user_id uuid NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE builds OWNER TO quodeck;
+
+--
 -- Name: phases; Type: TABLE; Schema: public; Owner: quodeck
 --
 
@@ -76,6 +91,14 @@ CREATE TABLE users (
 ALTER TABLE users OWNER TO quodeck;
 
 --
+-- Name: builds_pkey; Type: CONSTRAINT; Schema: public; Owner: quodeck
+--
+
+ALTER TABLE ONLY builds
+    ADD CONSTRAINT builds_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: phases_pkey; Type: CONSTRAINT; Schema: public; Owner: quodeck
 --
 
@@ -96,6 +119,14 @@ ALTER TABLE ONLY users
 --
 
 CREATE UNIQUE INDEX schema_migration_version_idx ON schema_migration USING btree (version);
+
+
+--
+-- Name: builds_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: quodeck
+--
+
+ALTER TABLE ONLY builds
+    ADD CONSTRAINT builds_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --

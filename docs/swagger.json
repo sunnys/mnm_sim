@@ -18,6 +18,257 @@
     "host": "localhost:3000",
     "basePath": "/api/v1",
     "paths": {
+        "/builds": {
+            "get": {
+                "description": "get all builds",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "List builds",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Access Token of successful authentication",
+                        "name": "access-token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Client Header of successful authentication",
+                        "name": "client",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Expiry Header of successful authentication",
+                        "name": "expiry",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid of user",
+                        "name": "uid",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "name search by q",
+                        "name": "q",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Build"
+                            }
+                        },
+                        "headers": {
+                            "Token": {
+                                "type": "string",
+                                "description": "qwerty"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/web.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/web.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/web.HTTPError"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "add by json Build",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "builds"
+                ],
+                "summary": "Add a Build",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Access Token of successful authentication",
+                        "name": "access-token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Client Header of successful authentication",
+                        "name": "client",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Expiry Header of successful authentication",
+                        "name": "expiry",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid of user",
+                        "name": "uid",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Add Build",
+                        "name": "Build",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/models.AddBuild"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/models.Build"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/web.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/web.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/web.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/builds/{id}": {
+            "get": {
+                "description": "get string by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "builds"
+                ],
+                "summary": "Show a build",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Access Token of successful authentication",
+                        "name": "access-token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Client Header of successful authentication",
+                        "name": "client",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Expiry Header of successful authentication",
+                        "name": "expiry",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "uid of user",
+                        "name": "uid",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Build ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/models.Build"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/web.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/web.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/web.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
         "/phases": {
             "get": {
                 "description": "get all phases",
@@ -440,6 +691,19 @@
         }
     },
     "definitions": {
+        "models.AddBuild": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "Build 1"
+                },
+                "user_id": {
+                    "type": "string",
+                    "example": "c347a056-e10f-4b07-aeab-94c36194036b"
+                }
+            }
+        },
         "models.AddPhase": {
             "type": "object",
             "properties": {
@@ -475,6 +739,30 @@
                 "password": {
                     "type": "string",
                     "example": "password"
+                }
+            }
+        },
+        "models.Build": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "user": {
+                    "type": "object",
+                    "$ref": "#/definitions/models.User"
+                },
+                "user_id": {
+                    "type": "string"
                 }
             }
         },

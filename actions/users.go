@@ -1,15 +1,15 @@
 package actions
 
 import (
-	"mnm_sim/models"
-	"fmt"
-	"time"
-	"strconv"
 	"encoding/json"
+	"fmt"
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/pop"
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/bcrypt"
+	"mnm_sim/models"
+	"strconv"
+	"time"
 )
 
 // Create new user godoc
@@ -54,7 +54,7 @@ func UsersCreate(c buffalo.Context) error {
 	if verrs.HasAny() {
 		c.Set("user", u)
 		c.Set("errors", verrs)
-		return c.Render(200,  r.Auto(c, verrs))
+		return c.Render(200, r.Auto(c, verrs))
 	}
 
 	c.Response().Header().Set("uid", u.Email)
@@ -104,7 +104,7 @@ func Authorize(next buffalo.Handler) buffalo.Handler {
 		if err != nil {
 			return c.Render(401, r.JSON(map[string]string{"message": "You are not authorized to see that page!, please authenticate and provide correct headers in the request "}))
 		}
-		token_matches:= MatchToken(u, client, token, expiry)
+		token_matches := MatchToken(u, client, token, expiry)
 		if token_matches != true {
 			return c.Render(401, r.JSON(map[string]string{"message": "You are not authorized to see that page!, please authenticate and provide correct headers in the request "}))
 		}
@@ -122,10 +122,10 @@ func MatchToken(u *models.User, client, token, expiry string) bool {
 	if c_err != nil || current_time > expiry_time {
 		return false
 	}
-	tokens:= u.Tokens
+	tokens := u.Tokens
 	merged_token := make(map[string]string)
 	json.Unmarshal([]byte(tokens), &merged_token)
-	token_hash:= merged_token[client]
+	token_hash := merged_token[client]
 	err := bcrypt.CompareHashAndPassword([]byte(token_hash), []byte(token))
 	if err != nil {
 		return false

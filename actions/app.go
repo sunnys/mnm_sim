@@ -134,6 +134,7 @@ func App() *buffalo.App {
 		app1.DELETE("/signout", AuthDestroy)
 		app1.Resource("/phases", PhasesResource{})
 		app1.Middleware.Skip(Authorize, HomeHandler, UsersNew, UsersCreate, AuthNew, AuthCreate)
+		app1.Resource("/builds", BuildsResource{})
 	}
 
 	return app

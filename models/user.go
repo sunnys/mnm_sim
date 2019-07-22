@@ -2,15 +2,15 @@ package models
 
 import (
 	"encoding/json"
-	"strings"
-	"time"
+	"fmt"
 	"github.com/gobuffalo/pop"
 	"github.com/gobuffalo/uuid"
 	"github.com/gobuffalo/validate"
 	"github.com/gobuffalo/validate/validators"
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/bcrypt"
-	"fmt"
+	"strings"
+	"time"
 )
 
 //User is a generated model from buffalo-auth, it serves as the base for username/password authentication.
@@ -23,7 +23,7 @@ type User struct {
 
 	Password             string `json:"password" db:"-"`
 	PasswordConfirmation string `json:"password_confirmation" db:"-"`
-	Tokens	string			   `json:"tokens" db:"tokens"`
+	Tokens               string `json:"tokens" db:"tokens"`
 	// Phases        Phases     `has_many:"phases"`
 }
 
@@ -59,8 +59,8 @@ func (u Users) String() string {
 // Function to convert
 func (u User) View() UserView {
 	user := UserView{
-		ID: u.ID,
-		Email: u.Email,
+		ID:        u.ID,
+		Email:     u.Email,
 		CreatedAt: u.CreatedAt,
 		UpdatedAt: u.UpdatedAt}
 	return user
@@ -112,29 +112,29 @@ func (u *User) ValidateUpdate(tx *pop.Connection) (*validate.Errors, error) {
 
 // AddUser example
 type AddUser struct {
-	email string `json:"email" example:"example_user@example.com"`
-	password string `json:"password" example:"password"`
+	email                 string `json:"email" example:"example_user@example.com"`
+	password              string `json:"password" example:"password"`
 	password_confirmation string `json:"password_confirmation" example:"password"`
 }
 
 // AuthenticateUser example
 type AuthenticateUser struct {
-	email string `json:"email" example:"example_user@example.com"`
+	email    string `json:"email" example:"example_user@example.com"`
 	password string `json:"password" example:"password"`
 }
 
 // Authentication Header Example
 type AuthenticationHeader struct {
-	uid string `json: "uid" example: "example_user@example.com"`
+	uid         string `json: "uid" example: "example_user@example.com"`
 	AccessToken string `json: "access-token" example: "oUfHwqhMHQu-r28_n6Crh5SWV7vcCGJis3NuZOwOjBU="`
-	client string `json: "client" example: "_nF39TTNZrZmtFUlwhdSvVuH3ea42JCmiNquRYMqkjs="`
-	expiry string `json: "expiry" example: "1564117755395"`
+	client      string `json: "client" example: "_nF39TTNZrZmtFUlwhdSvVuH3ea42JCmiNquRYMqkjs="`
+	expiry      string `json: "expiry" example: "1564117755395"`
 }
 
 // User View
 type UserView struct {
-	ID           uuid.UUID `json:"id" db:"id"`
-	CreatedAt    time.Time `json:"created_at" db:"created_at"`
-	UpdatedAt    time.Time `json:"updated_at" db:"updated_at"`
-	Email        string    `json:"email" db:"email"`
+	ID        uuid.UUID `json:"id" db:"id"`
+	CreatedAt time.Time `json:"created_at" db:"created_at"`
+	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
+	Email     string    `json:"email" db:"email"`
 }
